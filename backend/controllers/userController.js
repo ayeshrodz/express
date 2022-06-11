@@ -8,8 +8,12 @@ const User = require('../models/userModel')
 // @route   GET /api/users/me
 // @access  Private
 const getUser = asyncHandler(async (req, res) => {
-    const users = await User.find()
-    res.status(200).json(users)
+    const {_id, name, email } = await User.findById(req.user.id).select('-password')
+    res.status(200).json({
+        id: _id,
+        name,
+        email,
+    })
 })
 
 // @desc    Register a new user
